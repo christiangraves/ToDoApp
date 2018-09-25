@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 
 //Define PORT for server listening
-const PORT = 3000;
+const PORT = process.env.PORT || 4000;
 
 //Setup server to parse request request body for usage
 app.use(express.urlencoded({extended: true}));
