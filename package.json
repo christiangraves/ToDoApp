@@ -1,5 +1,5 @@
 {
-  "name": "unit-6-todoapp",
+  "name": "todoapp",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -13,12 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christiangraves/Unit-6-ToDoApp.git"
+    "url": "git+https://github.com/christiangraves/ToDoApp.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/christiangraves/Unit-6-ToDoApp/issues"
+    "url": "https://github.com/christiangraves/ToDoApp/issues"
   },
-  "homepage": "https://github.com/christiangraves/Unit-6-ToDoApp#readme"
+  "homepage": "https://github.com/christiangraves/ToDoApp#readme"
 }
