@@ -1,31 +1,49 @@
 $(function(){
-    //GET request to pull items already saved
+
+    const state = {
+        index: 0
+    }
+
+    //GET request for saved items and render them
     $.ajax({ url: "/api/showList", method: "GET" })
         .then(function (theList) {
-            console.log(theList)
             renderItems('#itemList', theList);
+            console.log(state.index);
         });
-        //render function to output items to page
-        const renderItems = function(outputElement, dataList){
 
-            for (let i = 0; i < dataList.length; i++) {
+    //render function for saved items
+    const renderItems = function(outputElement, dataList){
 
-                const output = $(outputElement);
+        for (state.index; state.index < dataList.length; state.index++) {
 
-                const thebutton = `<button class="newButt"><i class="fas fa-times"></i></button>`;
+            const output = $(outputElement);
 
-                const listItem = $("<li class='allItems'>");
+            const thebutton = `<button class="newButt" buttindex="${dataList[state.index].item}"><i class="fas fa-times"></i></button>`;
 
-                listItem.append(
-                    $("<h2>").append(`${dataList[i].item} ${thebutton}`)
-                );
+            const listItem = $('<li>')
+                .addClass('allItems')
+                .attr('item-index', `${state.index}`);
+            
+            listItem.append(
+                $("<h2>").append(`${dataList[state.index].item} ${thebutton}`)
+            );
 
-                output.append(listItem);
-            }
+            output.append(listItem);
         }
+    }
+    //Rerender function to render items after change
+    const rerender = function(){
+        state.index = 0;
+        $('#itemList').empty();
+        $.ajax({ url: "/api/showList", method: "GET" })
+        .then(function (theList) {
+            renderItems('#itemList', theList);
+            
+        });
+    }
 
 
-    //submit listener and function for new Item and to render to page
+    //submit listener and POST for new Item and to render to page
     $('#submit').on('click', function(event){
         event.preventDefault();
 
@@ -37,29 +55,40 @@ $(function(){
         $.ajax({ url: '/api/addList', method: 'POST', data: newItem }).then(
             function(){  
                     const displayItem = $('#enteredItem').val().trim();
-                    renderItem(displayItem);
-                    $('#enteredItem').val('');
-                    console.log(newItem);
-            });
-        //Render function
-        const renderItem = function(theItem){
 
-            const singleListItem = $("<li class='allItems'>");
+                    renderItem('#itemList', displayItem);
+                    $('#enteredItem').val('');
+                    
+            });
+        //Single Item Render function
+        const renderItem = function(singleOutputElement, theItem){
+            
+            const singleOutput = $(singleOutputElement);
+            
+            const singleListItem  = $('<li>')
+            .addClass('allItems')
+            .attr('item-index', `${theItem}`);
 
             singleListItem.append(
-                $("<h2>").append(`${theItem} <button class="newButt"><i class="fas fa-times"></i></button> `)
+                $("<h2>").append(`${theItem} <button class="newButt" buttindex=${theItem}><i class="fas fa-times"></i></button> `)
             );
 
-           $('#itemList').append(singleListItem);
+           singleOutput.append(singleListItem);
+           state.index++;
+           
         }
 
     });
+    //Button Listener and Delete ajax call for items
+    $('#itemList').on('click', '.newButt', function(){
 
-    $('#itemList').on('click', '.newButt', );
-
-
-
-
+        const deleteButt = $(this).attr('buttindex');
+        $.ajax({url: `/api/deleteList/${deleteButt}`, method: 'DELETE'})
+            .then(function(data){
+                console.log(data);
+            });
+        rerender();
+    })
 
 });
     

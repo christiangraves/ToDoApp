@@ -12,8 +12,9 @@ const PORT = process.env.PORT || 4000;
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-
+//Serve public folder as static directory
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 //Routes
 
