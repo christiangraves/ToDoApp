@@ -1,4 +1,4 @@
-# Homework 6 - To Do List App, and Reading
+To Do List App, and Reading
 
 There are **2 parts** to this homework. The homework is only complete if **all** parts are submitted.
 
